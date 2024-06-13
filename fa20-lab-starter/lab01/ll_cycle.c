@@ -1,16 +1,19 @@
-#include <stddef.h>
 #include "ll_cycle.h"
+#include <stddef.h>
 
 int ll_has_cycle(node *head) {
-    /* your code here */
-    node *fast = head;
-    node *slow = head;
-    while (fast != NULL && fast->next != NULL) {
-        fast = fast->next->next;
-        slow = slow->next;
-        if (fast == slow) {
-            return 1;
-        }
+  /* your code here */
+  node *slow = head;
+  node *fast = head;
+
+  while (fast != NULL && fast->next != NULL) {
+    slow = slow->next;
+    fast = fast->next->next;
+
+    if (fast == slow) {
+      return 1;
     }
-    return 0;
+  }
+
+  return 0;
 }

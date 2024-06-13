@@ -13,35 +13,35 @@
 #   this function terminates the program with error code 57
 # ==============================================================================
 relu:
-    # Prologue
-    li t0, 1
-    blt a1, t0, exception    # if a1 < 1, go to exit
-    addi sp, sp, -4
-    sw ra, 0(sp)
+  li t0, 1
+  blt a1, t0, error # check len
 
-loop_start:
-    li t0, 0                 # counter
-    li t1, 4                 # size of a word
+  addi sp, sp, -4 # stack push
+  sw ra, 0(sp)
 
-loop_continue:
-    beq t0, a1, loop_end
-    mul t2, t0, t1      
-    add t3, t2, a0           # index i
-    lw t4, 0(t3)             # array[i]
-    addi t0, t0, 1
-    blt t4, x0, change_sign
-    j loop_continue
+  li t0, 0 # index
+  li t1, 4 # word size
 
-loop_end:
-    # Epilogue
-    lw ra, 0(sp)
-    addi sp, sp, 4
-	ret
+loop:
+  blt t0, a1, 8 # i < len
+  j return
 
-change_sign:
-    sw x0, 0(t3)
-    j loop_continue
+  # array[i]
+  lw t2, 0(a0)
 
-exception:
-    li a1 36 
-    call exit2
+  blt zero, t2, 8 # 0 < array[i]
+  sw zero, 0(a0)
+
+  addi t0, t0, 1 # i++
+  add a0, a0, t1
+  j loop
+
+return:
+ lw ra, 0(sp)
+ addi sp, sp, 4
+ ret
+
+error:
+  li a1, 57
+  li a0, 17
+  ecall

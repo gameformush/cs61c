@@ -8,7 +8,7 @@ from typing import List, Optional, Set
 
 a_regs = {f"a{i}" for i in range(8)}
 
-# find venus jar
+# find venust/jar
 _script_dir = Path(os.path.dirname(__file__)).resolve()
 _root_dir = _script_dir / '..'
 _venus_path = _root_dir / 'tools' / 'venus.jar'
